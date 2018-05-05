@@ -1,0 +1,31 @@
+{
+  "name": "nebula-visualizer",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "http://cazinge.github.io/nebula-visualizer",
+  "dependencies": {
+    "konva": "^2.0.3",
+    "react": "^16.3.2",
+    "react-art": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-konva": "^1.7.2",
+    "react-native-web": "^0.6.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "devDependencies": {
+    "babel-plugin-react-native-web": "^0.6.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "gh-pages": "^1.1.0"
+  }
+}
