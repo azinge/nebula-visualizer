@@ -13,4 +13,9 @@ export default StyleSheet.create({
     color: 'white',
   },
   intro: { fontSize: 'large' },
+  viewport: {
+    borderColor: 'black',
+    borderWidth: '10px',
+    margin: '10px',
+  },
 });
