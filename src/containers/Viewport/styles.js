@@ -7,7 +7,7 @@ export default StyleSheet.create({
     margin: '10px',
   },
   viewport: {
-    height: '200px',
-    backgroundColor: 'teal'
-  }
+    height: '750px',
+    backgroundColor: 'white',
+  },
 });

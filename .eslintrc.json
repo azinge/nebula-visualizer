@@ -29,6 +29,7 @@
 
     "arrow-parens": "off",
     "function-paren-newline": "off",
+    "class-methods-use-this": "off",
 
     "no-confusing-arrow": ["error", { "allowParens": true }]
   }

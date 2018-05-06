@@ -5,6 +5,7 @@
   "homepage": "http://cazinge.github.io/nebula-visualizer",
   "dependencies": {
     "konva": "^2.0.3",
+    "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-art": "^16.3.2",
     "react-dom": "^16.3.2",
