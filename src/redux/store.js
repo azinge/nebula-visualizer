@@ -3,7 +3,7 @@ import { persistStore } from 'redux-persist';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
-import reducer from '../Root/reducer';
+import reducer from './Root/reducer';
 
 // eslint-disable-next-line no-unused-vars
 const postRehydrate = store => () => {};

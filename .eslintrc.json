@@ -8,6 +8,7 @@
     "Headers": false,
     "FormData": false,
     "__DEV__": false,
+    "document": false,
 
     "describe": false,
     "it": false,
@@ -24,6 +25,7 @@
     "global-require": "off",
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
+    "import/extensions": "off",
 
     "arrow-parens": "off",
     "function-paren-newline": "off",

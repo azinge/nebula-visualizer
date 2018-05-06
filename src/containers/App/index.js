@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { View, Image, Text } from 'react-native';
 
 import KonvaTest from '../KonvaTest';
 import logo from '../../assets/react-logo.png';
