@@ -3,32 +3,49 @@ import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
 
 class ComponentLayer extends Component {
-  static propTypes = {};
+  static propTypes = {
+    offset: PropTypes.shape({
+      x: PropTypes.number.isRequired,
+      y: PropTypes.number.isRequired,
+    }).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      initPos: { x: 2000, y: 1900 },
+      currentPos: { x: 2000, y: 1900 },
     };
   }
+
   onDragEnd = evt => {
-    // const {x, y} =
-    // console.log(evt.);
+    const { x, y } = evt.target.attrs;
+    evt.cancelBubble = true; // eslint-disable-line no-param-reassign
+    this.setState({ currentPos: { x, y } });
   };
+
   dragBoundFunc = ({ x, y }) => {
-    // console.log(e);
-    const { lastPos } = this.state;
-    console.log(x, y);
-    return {
-      x: Math.round(x / 50) * 50,
-      y: Math.round(y / 50) * 50,
+    const { offset } = this.props;
+    const adjustment = {
+      x: offset.x % 50,
+      y: offset.y % 50,
     };
+    const snapped = {
+      x: Math.round((x - adjustment.x) / 50) * 50,
+      y: Math.round((y - adjustment.y) / 50) * 50,
+    };
+    const coords = {
+      x: adjustment.x + snapped.x,
+      y: adjustment.y + snapped.y,
+    };
+    return coords;
   };
+
   render() {
-    const { initPos } = this.state;
+    const { currentPos } = this.state;
     return (
       <Rect
-        x={initPos.x}
-        y={initPos.y}
+        x={currentPos.x}
+        y={currentPos.y}
         width={100}
         height={100}
         fillLinearGradientStartPoint={{ x: -50, y: -50 }}

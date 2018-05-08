@@ -20,14 +20,30 @@ class Viewport extends Component {
         height: 4000,
         width: 4000,
       },
+      offset: {
+        x: -1950,
+        y: -2050,
+      },
     };
     this.openMenu = this.openMenu.bind(this);
   }
+  onDragEnd = evt => {
+    const { x, y } = evt.target.attrs;
+    evt.cancelBubble = true; // eslint-disable-line no-param-reassign
+    this.setState({ offset: { x, y } });
+  };
   measureView(event) {
+    const { stage: { height: prevHeight }, offset: { x, y } } = this.state;
+    const { width, height } = event.nativeEvent.layout;
+    const heightDiff = height - prevHeight;
     this.setState({
       stage: {
-        width: event.nativeEvent.layout.width,
-        height: event.nativeEvent.layout.height,
+        width,
+        height,
+      },
+      offset: {
+        x,
+        y: y + heightDiff,
       },
     });
   }
@@ -36,23 +52,26 @@ class Viewport extends Component {
     e.evt.preventDefault();
   }
   render() {
-    const { stage, viewport } = this.state;
-    const dragBoundFunc = ({ x, y }) => {
-      console.log(x, y);
-      return {
-        x: Math.min(0, Math.max(x, stage.width + -viewport.width)),
-        y: Math.min(0, Math.max(y, stage.height + -viewport.height)),
-      };
-    };
+    const { stage, viewport, offset } = this.state;
+    const dragBoundFunc = ({ x, y }) => ({
+      x: Math.min(0, Math.max(x, stage.width + -viewport.width)),
+      y: Math.min(0, Math.max(y, stage.height + -viewport.height)),
+    });
     return (
       <View style={styles.container}>
         <View onLayout={event => this.measureView(event)}>
           <View style={styles.viewport}>
             <Stage height={stage.height} width={stage.width} onContextMenu={this.openMenu}>
-              <Layer x={-1950} y={-2050 + stage.height} draggable dragBoundFunc={dragBoundFunc}>
+              <Layer
+                x={offset.x}
+                y={offset.y}
+                draggable
+                dragBoundFunc={dragBoundFunc}
+                onDragEnd={this.onDragEnd}
+              >
                 <BackgroundLayer viewport={viewport} />
                 <LinkLayer />
-                <ComponentLayer viewport={viewport} />
+                <ComponentLayer viewport={viewport} offset={offset} />
                 <MenuLayer />
                 <Text text="Layer Handle" />
               </Layer>
