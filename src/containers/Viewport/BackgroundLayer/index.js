@@ -1,27 +1,52 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Group, Rect } from 'react-konva';
+import { Group, Rect, Line } from 'react-konva';
 
-import {
-  generateColorStops,
-  largeBasePattern,
-  smallBasePattern,
-  axisBasePattern,
-} from './utils.js';
+import grid from '../../../assets/grid.svg';
 
 class BackgroundLayer extends Component {
   static propTypes = {
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
+    viewport: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }).isRequired,
   };
+  constructor(props) {
+    super(props);
+    const image = new window.Image();
+    image.onload = () => {
+      this.setState({ fillPatternImage: image });
+    };
+    image.src = grid;
+    this.state = {
+      fillPatternImage: null,
+    };
+  }
   render() {
-    const { width, height } = this.props;
-    const largeColorStops = generateColorStops(width, 250, largeBasePattern);
-    const smallColorStops = generateColorStops(width, 25, smallBasePattern);
-    const axisColorStops = generateColorStops(width, width, axisBasePattern);
+    const { width, height } = this.props.viewport;
+
+    const blockSize = 50 / 640;
+
+    const largeBlockScale = blockSize * 5;
+    const smallBlockScale = blockSize;
+
     return (
       <Group>
         <Rect
+          width={width}
+          height={height}
+          fillPatternImage={this.state.fillPatternImage}
+          fillPatternScale={{ x: largeBlockScale, y: largeBlockScale }}
+        />
+        <Rect
+          width={width}
+          height={height}
+          fillPatternImage={this.state.fillPatternImage}
+          fillPatternScale={{ x: smallBlockScale, y: smallBlockScale }}
+        />
+        <Line points={[width / 2, 0, width / 2, height]} strokeWidth={15} stroke="black" />
+        <Line points={[0, height / 2, width, height / 2]} strokeWidth={15} stroke="black" />
+        {/* <Rect
           width={width}
           height={height}
           fillLinearGradientStartPointX={0}
@@ -62,7 +87,7 @@ class BackgroundLayer extends Component {
           fillLinearGradientStartPointY={0}
           fillLinearGradientEndPointY={height}
           fillLinearGradientColorStops={axisColorStops}
-        />
+        /> */}
       </Group>
     );
   }

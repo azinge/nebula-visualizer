@@ -9,6 +9,7 @@
     "FormData": false,
     "__DEV__": false,
     "document": false,
+    "window": false,
 
     "describe": false,
     "it": false,

@@ -12,15 +12,23 @@ class Viewport extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: 0,
-      width: 0,
+      stage: {
+        height: 0,
+        width: 0,
+      },
+      viewport: {
+        height: 4000,
+        width: 4000,
+      },
     };
     this.openMenu = this.openMenu.bind(this);
   }
   measureView(event) {
     this.setState({
-      width: event.nativeEvent.layout.width,
-      height: event.nativeEvent.layout.height,
+      stage: {
+        width: event.nativeEvent.layout.width,
+        height: event.nativeEvent.layout.height,
+      },
     });
   }
   openMenu(e) {
@@ -28,19 +36,23 @@ class Viewport extends Component {
     e.evt.preventDefault();
   }
   render() {
+    const { stage, viewport } = this.state;
+    const dragBoundFunc = ({ x, y }) => {
+      console.log(x, y);
+      return {
+        x: Math.min(0, Math.max(x, stage.width + -viewport.width)),
+        y: Math.min(0, Math.max(y, stage.height + -viewport.height)),
+      };
+    };
     return (
       <View style={styles.container}>
         <View onLayout={event => this.measureView(event)}>
           <View style={styles.viewport}>
-            <Stage
-              height={this.state.height}
-              width={this.state.width}
-              onContextMenu={this.openMenu}
-            >
-              <Layer draggable>
-                <BackgroundLayer width={1000} height={1000} />
+            <Stage height={stage.height} width={stage.width} onContextMenu={this.openMenu}>
+              <Layer x={-1950} y={-2050 + stage.height} draggable dragBoundFunc={dragBoundFunc}>
+                <BackgroundLayer viewport={viewport} />
                 <LinkLayer />
-                <ComponentLayer />
+                <ComponentLayer viewport={viewport} />
                 <MenuLayer />
                 <Text text="Layer Handle" />
               </Layer>
