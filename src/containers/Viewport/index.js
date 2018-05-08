@@ -4,7 +4,7 @@ import { Stage, Layer, Text } from 'react-konva';
 
 import BackgroundLayer from './BackgroundLayer';
 import LinkLayer from './LinkLayer';
-import ComponentLayer from './ComponentLayer';
+import ConstructLayer from './ConstructLayer';
 import MenuLayer from './MenuLayer';
 import styles from './styles.js';
 
@@ -36,7 +36,7 @@ class Viewport extends Component {
     this.setState({ offset: { x, y } });
   };
   handleDragMove = e => {
-    console.log(e);
+    // console.log(e);
   };
   dragBoundFunc = ({ x, y }) => {
     const { stage, viewport } = this.state;
@@ -51,8 +51,8 @@ class Viewport extends Component {
     const heightDiff = height - prevHeight;
     this.setState({
       windowDimensions: {
-        height: window.innerHeight,
-        width: window.innerWidth,
+        height: window.innerHeight - 40,
+        width: window.innerWidth - 40,
       },
       stage: {
         width,
@@ -69,12 +69,13 @@ class Viewport extends Component {
     e.evt.preventDefault();
   }
   render() {
-    const { stage, viewport, offset } = this.state;
-
+    const {
+      windowDimensions, stage, viewport, offset,
+    } = this.state;
     return (
       <View style={styles.container}>
         <View onLayout={event => this.measureView(event)}>
-          <View style={[styles.viewport, { ...this.state.windowDimensions }]}>
+          <View style={[styles.viewport, { ...windowDimensions }]}>
             <Stage height={stage.height} width={stage.width} onContextMenu={this.openMenu}>
               <Layer
                 x={offset.x}
@@ -86,7 +87,7 @@ class Viewport extends Component {
               >
                 <BackgroundLayer viewport={viewport} />
                 <LinkLayer />
-                <ComponentLayer viewport={viewport} offset={offset} />
+                <ConstructLayer viewport={viewport} offset={offset} />
                 <MenuLayer />
                 <Text text="Layer Handle" />
               </Layer>

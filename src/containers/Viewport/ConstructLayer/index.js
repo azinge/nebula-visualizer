@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Rect } from 'react-konva';
 
-class ComponentLayer extends Component {
+class ConstructLayer extends Component {
   static propTypes = {
     offset: PropTypes.shape({
       x: PropTypes.number.isRequired,
@@ -60,4 +60,4 @@ class ComponentLayer extends Component {
   }
 }
 
-export default ComponentLayer;
+export default ConstructLayer;
