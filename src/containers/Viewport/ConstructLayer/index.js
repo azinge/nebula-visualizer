@@ -1,26 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Rect } from 'react-konva';
+import { Group } from 'react-konva';
+
+import Construct from './Construct';
+import LinkConstruct from './Link';
 
 class ConstructLayer extends Component {
   static propTypes = {
+    constructs: PropTypes.arrayOf(
+      PropTypes.shape({
+        pos: PropTypes.shape({
+          x: PropTypes.number.isRequired,
+          y: PropTypes.number.isRequired,
+        }).isRequired,
+        key: PropTypes.number.isRequired,
+      }).isRequired,
+    ).isRequired,
+    links: PropTypes.arrayOf(
+      PropTypes.shape({
+        from: PropTypes.shape({
+          x: PropTypes.number.isRequired,
+          y: PropTypes.number.isRequired,
+        }).isRequired,
+        to: PropTypes.shape({
+          x: PropTypes.number.isRequired,
+          y: PropTypes.number.isRequired,
+        }).isRequired,
+        key: PropTypes.number.isRequired,
+      }).isRequired,
+    ).isRequired,
     offset: PropTypes.shape({
       x: PropTypes.number.isRequired,
       y: PropTypes.number.isRequired,
     }).isRequired,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPos: { x: 2000, y: 1900 },
-    };
-  }
-
-  onDragEnd = evt => {
-    const { x, y } = evt.target.attrs;
-    evt.cancelBubble = true; // eslint-disable-line no-param-reassign
-    this.setState({ currentPos: { x, y } });
   };
 
   dragBoundFunc = ({ x, y }) => {
@@ -41,21 +53,15 @@ class ConstructLayer extends Component {
   };
 
   render() {
-    const { currentPos } = this.state;
     return (
-      <Rect
-        x={currentPos.x}
-        y={currentPos.y}
-        width={100}
-        height={100}
-        fillLinearGradientStartPoint={{ x: -50, y: -50 }}
-        fillLinearGradientEndPoint={{ x: 50, y: 50 }}
-        fillLinearGradientColorStops={[0, 'red', 1, 'yellow']}
-        shadowBlur={5}
-        draggable
-        dragBoundFunc={this.dragBoundFunc}
-        onDragEnd={this.onDragEnd}
-      />
+      <Group>
+        {this.props.links.map(link => (
+          <LinkConstruct from={link.from} to={link.to} offset={this.props.offset} key={link.key} />
+        ))}
+        {this.props.constructs.map(con => (
+          <Construct initPos={con.pos} offset={this.props.offset} key={con.key} />
+        ))}
+      </Group>
     );
   }
 }

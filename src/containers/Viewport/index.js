@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { Stage, Layer, Text } from 'react-konva';
 
 import BackgroundLayer from './BackgroundLayer';
-import LinkLayer from './LinkLayer';
 import ConstructLayer from './ConstructLayer';
 import MenuLayer from './MenuLayer';
 import styles from './styles.js';
@@ -11,7 +10,17 @@ import styles from './styles.js';
 class Viewport extends Component {
   constructor(props) {
     super(props);
+
+    const con1 = { pos: { x: 2150, y: 1550 }, key: 1 };
+    const con2 = { pos: { x: 2350, y: 1500 }, key: 2 };
+    const constructs = [con1, con2];
+
+    const link1 = { from: { x: 2150, y: 1700 }, to: { x: 2350, y: 1750 }, key: 1 };
+    const links = [link1];
+
     this.state = {
+      constructs,
+      links,
       windowDimensions: {
         height: window.innerHeight,
         width: window.innerWidth,
@@ -70,7 +79,7 @@ class Viewport extends Component {
   }
   render() {
     const {
-      windowDimensions, stage, viewport, offset,
+      windowDimensions, stage, viewport, offset, links, constructs,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -86,8 +95,12 @@ class Viewport extends Component {
                 onDragEnd={this.handleDragEnd}
               >
                 <BackgroundLayer viewport={viewport} />
-                <LinkLayer />
-                <ConstructLayer viewport={viewport} offset={offset} />
+                <ConstructLayer
+                  viewport={viewport}
+                  offset={offset}
+                  constructs={constructs}
+                  links={links}
+                />
                 <MenuLayer />
                 <Text text="Layer Handle" />
               </Layer>

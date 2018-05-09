@@ -46,48 +46,6 @@ class BackgroundLayer extends Component {
         />
         <Line points={[width / 2, 0, width / 2, height]} strokeWidth={15} stroke="black" />
         <Line points={[0, height / 2, width, height / 2]} strokeWidth={15} stroke="black" />
-        {/* <Rect
-          width={width}
-          height={height}
-          fillLinearGradientStartPointX={0}
-          fillLinearGradientEndPointX={width}
-          fillLinearGradientColorStops={largeColorStops}
-        />
-        <Rect
-          width={width}
-          height={height}
-          fillLinearGradientStartPointY={0}
-          fillLinearGradientEndPointY={height}
-          fillLinearGradientColorStops={largeColorStops}
-        />
-        <Rect
-          width={width}
-          height={height}
-          fillLinearGradientStartPointX={0}
-          fillLinearGradientEndPointX={width}
-          fillLinearGradientColorStops={smallColorStops}
-        />
-        <Rect
-          width={width}
-          height={height}
-          fillLinearGradientStartPointY={0}
-          fillLinearGradientEndPointY={height}
-          fillLinearGradientColorStops={smallColorStops}
-        />
-        <Rect
-          width={width}
-          height={height}
-          fillLinearGradientStartPointX={0}
-          fillLinearGradientEndPointX={height}
-          fillLinearGradientColorStops={axisColorStops}
-        />
-        <Rect
-          width={width}
-          height={height}
-          fillLinearGradientStartPointY={0}
-          fillLinearGradientEndPointY={height}
-          fillLinearGradientColorStops={axisColorStops}
-        /> */}
       </Group>
     );
   }
