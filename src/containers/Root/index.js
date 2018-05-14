@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import Viewport from '../Viewport';
 import styles from './styles.js';
 
-class App extends Component {
+class Root extends Component {
   render() {
     return (
       <View style={styles.main}>
@@ -14,4 +14,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Root;

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
+import { runProgram } from '../utils.js';
 import styles from '../styles.js';
 
 class ConstructLayer extends Component {
@@ -32,6 +33,7 @@ class ConstructLayer extends Component {
         y: props.to.y + 25,
       },
     };
+    console.log(runProgram());
   }
 
   onDragEnd = target => evt => {
