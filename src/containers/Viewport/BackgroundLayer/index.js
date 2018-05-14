@@ -5,12 +5,6 @@ import { Group, Rect, Line } from 'react-konva';
 import grid from '../../../assets/grid.svg';
 
 class BackgroundLayer extends Component {
-  static propTypes = {
-    viewport: PropTypes.shape({
-      width: PropTypes.number.isRequired,
-      height: PropTypes.number.isRequired,
-    }).isRequired,
-  };
   constructor(props) {
     super(props);
     const image = new window.Image();
@@ -50,5 +44,12 @@ class BackgroundLayer extends Component {
     );
   }
 }
+
+BackgroundLayer.propTypes = {
+  viewport: PropTypes.shape({
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+  }).isRequired,
+};
 
 export default BackgroundLayer;

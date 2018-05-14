@@ -10,17 +10,7 @@ import styles from './styles.js';
 class Viewport extends Component {
   constructor(props) {
     super(props);
-
-    const con1 = { pos: { x: 2150, y: 1550 }, key: 1 };
-    const con2 = { pos: { x: 2350, y: 1500 }, key: 2 };
-    const constructs = [con1, con2];
-
-    const link1 = { from: { x: 2150, y: 1700 }, to: { x: 2350, y: 1750 }, key: 1 };
-    const links = [link1];
-
     this.state = {
-      constructs,
-      links,
       windowDimensions: {
         height: window.innerHeight,
         width: window.innerWidth,
@@ -79,7 +69,7 @@ class Viewport extends Component {
   }
   render() {
     const {
-      windowDimensions, stage, viewport, offset, links, constructs,
+      windowDimensions, stage, viewport, offset,
     } = this.state;
     return (
       <View style={styles.container}>
@@ -95,12 +85,7 @@ class Viewport extends Component {
                 onDragEnd={this.handleDragEnd}
               >
                 <BackgroundLayer viewport={viewport} />
-                <ConstructLayer
-                  viewport={viewport}
-                  offset={offset}
-                  constructs={constructs}
-                  links={links}
-                />
+                <ConstructLayer viewport={viewport} offset={offset} />
                 <MenuLayer />
                 <Text text="Layer Handle" />
               </Layer>

@@ -2,25 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
-import { runProgram } from '../utils.js';
 import styles from '../styles.js';
 
-class ConstructLayer extends Component {
-  static propTypes = {
-    from: PropTypes.shape({
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired,
-    to: PropTypes.shape({
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired,
-    offset: PropTypes.shape({
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired,
-  };
-
+class Link extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +17,6 @@ class ConstructLayer extends Component {
         y: props.to.y + 25,
       },
     };
-    console.log(runProgram());
   }
 
   onDragEnd = target => evt => {
@@ -89,4 +72,19 @@ class ConstructLayer extends Component {
   }
 }
 
-export default ConstructLayer;
+Link.propTypes = {
+  from: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+  to: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+  offset: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
+export default Link;

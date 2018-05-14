@@ -1,16 +1,49 @@
-import { compileProgram } from 'nebula';
+import { compileProgram, analyzeProgram } from 'nebula';
 
 export const runProgram = () => {
-  const programText = `Origin default (0,0,0)
-        id "hello"
-        Result <0,0,1>
-            Callback <0,0,1>            #global pos (0,0,2)
-    Function print (0,1,0)
-        Parameter <0,1,0>
-            primitive "Hello, world!"
-        Callback <0,1,0>                #global pos (0,2,0)
-    Link (0,0,2) (0,2,0)`;
+  const programText = `
+Origin default "hello" (0,0,0)
+  Result void <0,0,1>
 
+Function "print" (0,1,0)
+  Parameter "message" <0,1,0>
+    initialize string "Hello, world!"
+  Return <0,2,0>
+
+Link (0,3,0) (0,0,1)
+`;
+
+  const prgrm = compileProgram(programText);
+  console.log(prgrm);
   // eslint-disable-next-line no-eval
-  return `result: ${eval(compileProgram(programText))}`;
+  return `result: ${eval(prgrm)}`;
+};
+
+export const createConstructs = () => {
+  const programText = `
+Origin default "hello" (0,0,0)
+  Result void <0,0,1>
+
+Function "print" (0,1,0)
+  Parameter "message" <0,1,0>
+    initialize string "Hello, world!"
+  Return <0,2,0>
+
+Link (0,3,0) (0,0,1)
+`;
+
+  const prgm = analyzeProgram(programText);
+
+  const constructs = [];
+  const links = [];
+
+  prgm.body.forEach(construct => {
+    if (construct.getClassName() === 'Link') {
+      links.push(construct);
+    } else {
+      constructs.push(construct);
+    }
+  });
+
+  return { constructs, links };
 };

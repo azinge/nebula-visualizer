@@ -4,18 +4,7 @@ import { Rect } from 'react-konva';
 
 import styles from '../styles.js';
 
-class ConstructLayer extends Component {
-  static propTypes = {
-    initPos: PropTypes.shape({
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired,
-    offset: PropTypes.shape({
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    }).isRequired,
-  };
-
+class Construct extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,4 +50,15 @@ class ConstructLayer extends Component {
   }
 }
 
-export default ConstructLayer;
+Construct.propTypes = {
+  initPos: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+  offset: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }).isRequired,
+};
+
+export default Construct;
