@@ -4,42 +4,61 @@ import { Group } from 'react-konva';
 
 import Construct from './Construct';
 import LinkConstruct from './Link';
-import { runProgram, createConstructs } from './utils.js';
+import {
+  runProgram,
+  createConstructs,
+  parseLink,
+  parseConstruct,
+  unitToRawCoords,
+} from './utils.js';
 
 class ConstructLayer extends Component {
   constructor(props) {
     super(props);
     console.log(runProgram());
-    console.log(createConstructs());
-    const con1 = { pos: { x: 2150, y: 1550 }, key: 1 };
-    const con2 = { pos: { x: 2350, y: 1500 }, key: 2 };
-    const constructs = [con1, con2];
+    const { constructs: rawConstructs, links: rawLinks } = createConstructs();
 
-    const link1 = { from: { x: 2150, y: 1700 }, to: { x: 2350, y: 1750 }, key: 1 };
-    const links = [link1];
+    const constructs = rawConstructs.map(parseConstruct);
+    const links = rawLinks.map(parseLink);
+
+    console.log(constructs);
     this.state = {
       constructs,
       links,
     };
   }
 
-  renderLinks() {
-    return this.state.links.map(link => (
+  renderLinks(links) {
+    return links.map(link => (
       <LinkConstruct from={link.from} to={link.to} offset={this.props.offset} key={link.key} />
     ));
   }
 
-  renderConstructs() {
-    return this.state.constructs.map(con => (
-      <Construct initPos={con.pos} offset={this.props.offset} key={con.key} />
-    ));
+  renderConstructs(constructs, parentLoc = null) {
+    return constructs.map(con => {
+      const pos = parentLoc
+        ? { x: (con.pos.x - parentLoc.x) * 50, y: (con.pos.y - parentLoc.y) * -50 }
+        : unitToRawCoords(con.pos);
+      return (
+        <Construct
+          initPos={pos}
+          styles={con.styles}
+          name={con.name}
+          offset={this.props.offset}
+          key={con.key}
+        >
+          {this.renderConstructs(con.children, con.pos)}
+        </Construct>
+      );
+    });
   }
 
   render() {
+    const { links, constructs } = this.state;
     return (
       <Group>
-        {this.renderLinks()}
-        {this.renderConstructs()}
+        {this.renderLinks(links)}
+        {this.renderConstructs(constructs)}
       </Group>
     );
   }

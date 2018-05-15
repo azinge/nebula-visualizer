@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Stage, Layer, Text } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 
 import BackgroundLayer from './BackgroundLayer';
 import ConstructLayer from './ConstructLayer';
@@ -87,7 +87,6 @@ class Viewport extends Component {
                 <BackgroundLayer viewport={viewport} />
                 <ConstructLayer viewport={viewport} offset={offset} />
                 <MenuLayer />
-                <Text text="Layer Handle" />
               </Layer>
             </Stage>
           </View>

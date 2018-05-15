@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Rect } from 'react-konva';
-
-import styles from '../styles.js';
+import { Group, Rect, Text } from 'react-konva';
 
 class Construct extends Component {
   constructor(props) {
     super(props);
+
+    const adjustment = { x: (100 - props.styles.width) / 2, y: (100 - props.styles.height) / 2 };
     this.state = {
-      currPos: props.initPos,
+      adjustment,
+      currPos: {
+        x: props.initPos.x + adjustment.x,
+        y: props.initPos.y + adjustment.y,
+      },
     };
   }
 
@@ -25,12 +29,12 @@ class Construct extends Component {
       y: offset.y % 50,
     };
     const snapped = {
-      x: Math.round((x - adjustment.x) / 50) * 50,
-      y: Math.round((y - adjustment.y) / 50) * 50,
+      x: Math.round((x - adjustment.x - this.state.adjustment.x) / 50) * 50,
+      y: Math.round((y - adjustment.y - this.state.adjustment.y) / 50) * 50,
     };
     const coords = {
-      x: adjustment.x + snapped.x,
-      y: adjustment.y + snapped.y,
+      x: adjustment.x + snapped.x + this.state.adjustment.x,
+      y: adjustment.y + snapped.y + this.state.adjustment.y,
     };
     return coords;
   };
@@ -38,19 +42,28 @@ class Construct extends Component {
   render() {
     const { currPos } = this.state;
     return (
-      <Rect
+      <Group
         x={currPos.x}
         y={currPos.y}
-        draggable
-        dragBoundFunc={this.dragBoundFunc}
         onDragEnd={this.onDragEnd}
-        {...styles.construct}
-      />
+        dragBoundFunc={this.dragBoundFunc}
+        draggable
+      >
+        {this.props.children}
+        <Rect {...this.props.styles} />
+        <Text text={this.props.name} />
+      </Group>
     );
   }
 }
 
 Construct.propTypes = {
+  name: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  styles: PropTypes.shape({
+    height: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+  }).isRequired,
   initPos: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,

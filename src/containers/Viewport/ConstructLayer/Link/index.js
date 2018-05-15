@@ -3,18 +3,21 @@ import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
 import styles from '../styles.js';
+import { unitToRawCoords } from '../utils.js';
 
 class Link extends Component {
   constructor(props) {
     super(props);
+    const from = unitToRawCoords(props.from);
+    const to = unitToRawCoords(props.to);
     this.state = {
       from: {
-        x: props.from.x + 25,
-        y: props.from.y + 25,
+        x: from.x + 25,
+        y: from.y + 25,
       },
       to: {
-        x: props.to.x + 25,
-        y: props.to.y + 25,
+        x: to.x + 25,
+        y: to.y + 25,
       },
     };
   }
