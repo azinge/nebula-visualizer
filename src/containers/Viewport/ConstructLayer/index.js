@@ -36,9 +36,16 @@ class ConstructLayer extends Component {
 
   renderConstructs(constructs, parentLoc = null) {
     return constructs.map(con => {
-      const pos = parentLoc
-        ? { x: (con.pos.x - parentLoc.x) * 50, y: (con.pos.y - parentLoc.y) * -50 }
-        : unitToRawCoords(con.pos);
+      let pos = unitToRawCoords(con.pos);
+      if (parentLoc) {
+        const adjustment = { x: (100 - con.styles.width) / 2, y: (100 - con.styles.height) / 2 };
+        const scaledConPos = { x: con.pos.x * 50, y: con.pos.y * -50 };
+        const scaledParentLoc = { x: parentLoc.x * 50, y: parentLoc.y * -50 };
+        pos = {
+          x: scaledConPos.x - scaledParentLoc.x - adjustment.x,
+          y: scaledConPos.y - scaledParentLoc.y - adjustment.y,
+        };
+      }
       return (
         <Construct
           initPos={pos}
