@@ -1,5 +1,5 @@
 /* Actions */
-import { RECEIVE_CONSTRUCTS } from './actions';
+import { RECEIVE_LINKS } from './actions';
 
 /* Initial State */
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
 /* Reducer */
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case RECEIVE_CONSTRUCTS:
+    case RECEIVE_LINKS:
       return {
         ...state,
         data: action.payload,

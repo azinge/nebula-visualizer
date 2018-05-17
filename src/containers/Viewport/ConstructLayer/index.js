@@ -1,34 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group } from 'react-konva';
 
 import Construct from './Construct';
 import LinkConstruct from './Link';
-import {
-  runProgram,
-  createConstructs,
-  parseLink,
-  parseConstruct,
-  unitToRawCoords,
-} from './utils.js';
+import { unitToRawCoords } from './utils.js';
 
 class ConstructLayer extends Component {
-  constructor(props) {
-    super(props);
-    console.log(runProgram());
-    const { constructs: rawConstructs, links: rawLinks } = createConstructs();
-    console.log(rawConstructs);
-
-    const constructs = rawConstructs.map(parseConstruct);
-    const links = rawLinks.map(parseLink);
-
-    console.log(constructs);
-    this.state = {
-      constructs,
-      links,
-    };
-  }
-
   renderLinks(links) {
     return links.map(link => (
       <LinkConstruct from={link.from} to={link.to} offset={this.props.offset} key={link.key} />
@@ -63,7 +42,7 @@ class ConstructLayer extends Component {
   }
 
   render() {
-    const { links, constructs } = this.state;
+    const { links, constructs } = this.props;
     return (
       <Group>
         {this.renderLinks(links)}
@@ -74,10 +53,17 @@ class ConstructLayer extends Component {
 }
 
 ConstructLayer.propTypes = {
+  constructs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  links: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   offset: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
 };
 
-export default ConstructLayer;
+const mapStateToProps = state => ({
+  constructs: state.constructs.data,
+  links: state.links.data,
+});
+
+export default connect(mapStateToProps, null)(ConstructLayer);

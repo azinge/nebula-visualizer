@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
-import styles from '../styles.js';
+import styles from '../../../../lib/utils/nebula/styles.js';
 import { unitToRawCoords } from '../utils.js';
 
 class Link extends Component {
