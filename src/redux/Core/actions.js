@@ -26,6 +26,8 @@ export const refreshViewport = program => async dispatch => {
   const constructs = rawConstructs.map(parseConstruct);
   const links = rawLinks.map(parseLink);
 
+  console.log(constructs, links);
+
   await dispatch(receiveConstructs(constructs));
   await dispatch(receiveLinks(links));
 };

@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group, Rect, Text } from 'react-konva';
 
-import { updateLink } from '../../../../redux/Links/actions';
+import { rawToUnitCoords } from '../utils';
+import { updateConstruct } from '../../../../redux/Constructs/actions';
 
 class Construct extends Component {
   constructor(props) {
     super(props);
-
-    const adjustment = { x: (100 - props.styles.width) / 2, y: (100 - props.styles.height) / 2 };
+    const adjustment = {
+      x: (100 - props.styles.width) / 2,
+      y: (100 - props.styles.height) / 2,
+    };
     this.state = {
       adjustment,
       currPos: {
@@ -22,6 +26,7 @@ class Construct extends Component {
     const { x, y } = evt.target.attrs;
     evt.cancelBubble = true; // eslint-disable-line no-param-reassign
     this.setState({ currPos: { x, y } });
+    this.updateConstruct();
   };
 
   dragBoundFunc = ({ x, y }) => {
@@ -41,10 +46,28 @@ class Construct extends Component {
     return coords;
   };
 
-  updateLink = async () => {
-    const { dispatch } = this.props;
-    const link = {};
-    await dispatch(updateLink(link));
+  updateConstruct = async () => {
+    const {
+      childConstructs, info, id, name, styles, dispatch,
+    } = this.props;
+    const { currPos, adjustment } = this.state;
+
+    const refitCoords = ({ x, y }) =>
+      rawToUnitCoords({
+        x: x - adjustment.x,
+        y: y - adjustment.y,
+      });
+
+    const link = {
+      pos: refitCoords(currPos),
+      key: id,
+      info,
+      children: childConstructs,
+      name,
+      styles,
+    };
+
+    await dispatch(updateConstruct(link));
   };
 
   render() {
@@ -88,6 +111,12 @@ Construct.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired,
 };
 
-export default Construct;
+const mapDispatchToProps = dispatch => ({
+  dispatch,
+});
+
+export default connect(null, mapDispatchToProps)(Construct);

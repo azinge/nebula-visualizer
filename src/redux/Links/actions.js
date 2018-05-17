@@ -8,7 +8,7 @@ export const receiveLinks = createAction(RECEIVE_LINKS);
 
 /* Thunks */
 export const updateLink = link => async (dispatch, getState) => {
-  const { constructs: { data } } = getState();
+  const { links: { data } } = getState();
   const updatedLinks = data.map(item => (item.key === link.key ? link : item));
   await dispatch(receiveLinks(updatedLinks));
   return updatedLinks;

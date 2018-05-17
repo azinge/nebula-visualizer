@@ -19,6 +19,7 @@ class ConstructLayer extends Component {
           styles={link.styles}
           offset={this.props.offset}
           key={link.key}
+          id={link.key}
         />
       );
     });
@@ -43,7 +44,9 @@ class ConstructLayer extends Component {
           name={con.name}
           info={con.info}
           offset={this.props.offset}
+          childConstructs={con.children}
           key={con.key}
+          id={con.key}
         >
           {this.renderConstructs(con.children, con.pos)}
         </Construct>
