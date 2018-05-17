@@ -2,21 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
-import { unitToRawCoords } from '../utils.js';
+import { updateLink } from '../../../../redux/Links/actions';
 
 class Link extends Component {
   constructor(props) {
     super(props);
-    const from = unitToRawCoords(props.from);
-    const to = unitToRawCoords(props.to);
     this.state = {
       from: {
-        x: from.x + 25,
-        y: from.y + 25,
+        x: props.from.x + 25,
+        y: props.from.y + 25,
       },
       to: {
-        x: to.x + 25,
-        y: to.y + 25,
+        x: props.to.x + 25,
+        y: props.to.y + 25,
       },
     };
   }
@@ -42,6 +40,12 @@ class Link extends Component {
       y: adjustment.y + snapped.y + 25,
     };
     return coords;
+  };
+
+  updateLink = async () => {
+    const { dispatch } = this.props;
+    const link = {};
+    await dispatch(updateLink(link));
   };
 
   render() {

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Group, Rect, Text } from 'react-konva';
 
+import { updateLink } from '../../../../redux/Links/actions';
+
 class Construct extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +39,12 @@ class Construct extends Component {
       y: adjustment.y + snapped.y + this.state.adjustment.y,
     };
     return coords;
+  };
+
+  updateLink = async () => {
+    const { dispatch } = this.props;
+    const link = {};
+    await dispatch(updateLink(link));
   };
 
   render() {

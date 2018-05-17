@@ -9,15 +9,19 @@ import { unitToRawCoords } from './utils.js';
 
 class ConstructLayer extends Component {
   renderLinks(links) {
-    return links.map(link => (
-      <LinkConstruct
-        from={link.from}
-        to={link.to}
-        styles={link.styles}
-        offset={this.props.offset}
-        key={link.key}
-      />
-    ));
+    return links.map(link => {
+      const fromPos = unitToRawCoords(link.from);
+      const toPos = unitToRawCoords(link.to);
+      return (
+        <LinkConstruct
+          from={fromPos}
+          to={toPos}
+          styles={link.styles}
+          offset={this.props.offset}
+          key={link.key}
+        />
+      );
+    });
   }
 
   renderConstructs(constructs, parentLoc = null) {
