@@ -40,7 +40,13 @@ class Construct extends Component {
   };
 
   render() {
+    const {
+      info, children, styles, name,
+    } = this.props;
     const { currPos } = this.state;
+    const text = Object.keys(info)
+      .map(key => `${key}: ${info[key]}`)
+      .join('\n');
     return (
       <Group
         x={currPos.x}
@@ -49,9 +55,10 @@ class Construct extends Component {
         dragBoundFunc={this.dragBoundFunc}
         draggable
       >
-        {this.props.children}
-        <Rect {...this.props.styles} />
-        <Text text={this.props.name} />
+        {children}
+        <Rect {...styles} />
+        <Text text={name} />
+        <Text x={2} y={15} text={text} />
       </Group>
     );
   }
@@ -60,6 +67,7 @@ class Construct extends Component {
 Construct.propTypes = {
   name: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  info: PropTypes.shape({}).isRequired,
   styles: PropTypes.shape({
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,

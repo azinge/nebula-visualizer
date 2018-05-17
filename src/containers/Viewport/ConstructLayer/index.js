@@ -17,6 +17,7 @@ class ConstructLayer extends Component {
     super(props);
     console.log(runProgram());
     const { constructs: rawConstructs, links: rawLinks } = createConstructs();
+    console.log(rawConstructs);
 
     const constructs = rawConstructs.map(parseConstruct);
     const links = rawLinks.map(parseLink);
@@ -51,6 +52,7 @@ class ConstructLayer extends Component {
           initPos={pos}
           styles={con.styles}
           name={con.name}
+          info={con.info}
           offset={this.props.offset}
           key={con.key}
         >
