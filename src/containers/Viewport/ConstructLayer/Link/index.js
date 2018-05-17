@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
-import styles from '../../../../lib/utils/nebula/styles.js';
 import { unitToRawCoords } from '../utils.js';
 
 class Link extends Component {
@@ -46,6 +45,7 @@ class Link extends Component {
   };
 
   render() {
+    const { styles } = this.props;
     const { from: fromPos, to: toPos } = this.state;
     return (
       <Group>
@@ -60,7 +60,7 @@ class Link extends Component {
           draggable
           dragBoundFunc={this.dragBoundFunc}
           onDragEnd={this.onDragEnd('from')}
-          {...styles.linkNode}
+          {...styles}
         />
         <Rect
           x={toPos.x}
@@ -68,7 +68,7 @@ class Link extends Component {
           draggable
           dragBoundFunc={this.dragBoundFunc}
           onDragEnd={this.onDragEnd('to')}
-          {...styles.linkNode}
+          {...styles}
         />
       </Group>
     );
@@ -84,6 +84,7 @@ Link.propTypes = {
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
   }).isRequired,
+  styles: PropTypes.shape({}).isRequired,
   offset: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,

@@ -44,5 +44,6 @@ export const parseConstruct = (construct, key) => ({
 export const parseLink = (construct, key) => ({
   from: locationToUnitCoords(construct.from),
   to: locationToUnitCoords(construct.to),
+  styles: styles.linkNode,
   key,
 });

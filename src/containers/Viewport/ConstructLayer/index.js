@@ -10,7 +10,13 @@ import { unitToRawCoords } from './utils.js';
 class ConstructLayer extends Component {
   renderLinks(links) {
     return links.map(link => (
-      <LinkConstruct from={link.from} to={link.to} offset={this.props.offset} key={link.key} />
+      <LinkConstruct
+        from={link.from}
+        to={link.to}
+        styles={link.styles}
+        offset={this.props.offset}
+        key={link.key}
+      />
     ));
   }
 
