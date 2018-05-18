@@ -10,20 +10,23 @@ import { unitToRawCoords } from './utils.js';
 class ConstructLayer extends Component {
   renderLinks(links) {
     const { constructMap } = this.props;
-    return links.map(id => constructMap[id]).map(link => {
-      const fromPos = unitToRawCoords(link.from);
-      const toPos = unitToRawCoords(link.to);
-      return (
-        <LinkConstruct
-          from={fromPos}
-          to={toPos}
-          styles={link.styles}
-          offset={this.props.offset}
-          key={link.id}
-          id={link.id}
-        />
-      );
-    });
+    return links
+      .map(id => constructMap[id])
+      .filter(x => x)
+      .map(link => {
+        const fromPos = unitToRawCoords(link.from);
+        const toPos = unitToRawCoords(link.to);
+        return (
+          <LinkConstruct
+            from={fromPos}
+            to={toPos}
+            styles={link.styles}
+            offset={this.props.offset}
+            key={link.id}
+            id={link.id}
+          />
+        );
+      });
   }
 
   renderConstructs(constructs, parentLoc = null) {

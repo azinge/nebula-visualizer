@@ -34,9 +34,6 @@ class Viewport extends Component {
     const { x, y } = evt.target.attrs;
     this.setState({ offset: { x, y } });
   };
-  handleDragMove = e => {
-    // console.log(e);
-  };
   dragBoundFunc = ({ x, y }) => {
     const { stage, viewport } = this.state;
     return {
@@ -51,7 +48,7 @@ class Viewport extends Component {
     this.setState({
       windowDimensions: {
         height: window.innerHeight - 40,
-        width: window.innerWidth - 40,
+        width: 1000,
       },
       stage: {
         width,
@@ -72,7 +69,7 @@ class Viewport extends Component {
       windowDimensions, stage, viewport, offset,
     } = this.state;
     return (
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <View onLayout={event => this.measureView(event)}>
           <View style={[styles.viewport, { ...windowDimensions }]}>
             <Stage height={stage.height} width={stage.width} onContextMenu={this.openMenu}>

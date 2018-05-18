@@ -37,8 +37,10 @@ export const refreshProgram = () => async (dispatch, getState) => {
 
 export const refreshViewport = () => async (dispatch, getState) => {
   const { program: { data: program } } = getState();
-  const { constructs: rawConstructs, links: rawLinks } = createConstructs(program);
 
+  await dispatch(resetConstructs());
+  await dispatch(resetLinks());
+  const { constructs: rawConstructs, links: rawLinks } = createConstructs(program);
   console.log(rawConstructs);
 
   const constructMap = {};
@@ -66,9 +68,6 @@ export const refreshViewport = () => async (dispatch, getState) => {
     .map(link => link.id);
 
   console.log(constructMap, constructs, links);
-
-  await dispatch(resetConstructs());
-  await dispatch(resetLinks());
   await dispatch(receiveConstructMap(constructMap));
   await dispatch(receiveConstructs(constructs));
   await dispatch(receiveLinks(links));

@@ -6,8 +6,15 @@ import generator from './generator';
 
 export const runProgram = (programText, params) => {
   const program = compileProgram(programText, params);
+  const logger = console.log;
+  console.log = x => {
+    logger(x);
+    return `${x}`;
+  };
   // eslint-disable-next-line no-eval
-  return eval(program);
+  const response = eval(program);
+  console.log = logger;
+  return response;
 };
 
 export const createConstructs = programText => {

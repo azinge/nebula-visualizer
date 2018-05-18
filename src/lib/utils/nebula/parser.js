@@ -24,8 +24,10 @@ const parseParameter = con => {
   if (con.isLeaf) {
     if (con.body.getClassName() === 'Initialize') {
       result.init = con.body.value.value;
+      result.type = con.body.type;
     } else if (con.body.getClassName() === 'Access') {
       result.access = con.body.id.value;
+      result.type = con.body.type;
     }
   }
   return result;
