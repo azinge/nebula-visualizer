@@ -1,8 +1,8 @@
 import { createAction } from '../utils';
 import { runProgram, createConstructs, parseConstruct, parseLink } from '../../lib/utils/nebula';
 import examples from '../../lib/utils/nebula/examples';
-import { receiveConstructs } from '../Constructs/actions';
-import { receiveLinks } from '../Links/actions';
+import { receiveConstructs, resetConstructs } from '../Constructs/actions';
+import { receiveLinks, resetLinks } from '../Links/actions';
 
 /* Actions */
 export const BEGIN_STARTUP = 'NV.CORE.BEGIN_STARTUP';
@@ -28,6 +28,8 @@ export const refreshViewport = program => async dispatch => {
 
   console.log(constructs, links);
 
+  await dispatch(resetConstructs());
+  await dispatch(resetLinks());
   await dispatch(receiveConstructs(constructs));
   await dispatch(receiveLinks(links));
 };

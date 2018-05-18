@@ -1,5 +1,5 @@
 /* Actions */
-import { RECEIVE_LINKS } from './actions';
+import { RECEIVE_LINKS, RESET_LINKS } from './actions';
 
 /* Initial State */
 const initialState = {
@@ -14,6 +14,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         data: action.payload,
       };
+    case RESET_LINKS:
+      return initialState;
     default:
       return state;
   }

@@ -1,5 +1,5 @@
 /* Actions */
-import { RECEIVE_CONSTRUCTS } from './actions';
+import { RECEIVE_CONSTRUCTS, RESET_CONSTRUCTS } from './actions';
 
 /* Initial State */
 const initialState = {
@@ -14,6 +14,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         data: action.payload,
       };
+    case RESET_CONSTRUCTS:
+      return initialState;
     default:
       return state;
   }
