@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Group, Rect, Text } from 'react-konva';
 
-import { rawToUnitCoords } from '../utils';
+import { rawToUnitCoords, getAbsolutePosForEvent } from '../utils';
 import { updateConstruct } from '../../../../redux/Constructs/actions';
 
 class Construct extends Component {
@@ -26,7 +26,7 @@ class Construct extends Component {
     const { x, y } = evt.target.attrs;
     evt.cancelBubble = true; // eslint-disable-line no-param-reassign
     this.setState({ currPos: { x, y } });
-    this.updateConstruct();
+    this.updateConstruct(evt);
   };
 
   dragBoundFunc = ({ x, y }) => {
@@ -46,11 +46,12 @@ class Construct extends Component {
     return coords;
   };
 
-  updateConstruct = async () => {
+  updateConstruct = async evt => {
+    const pos = getAbsolutePosForEvent(evt);
     const {
       childConstructs, info, id, name, styles, dispatch,
     } = this.props;
-    const { currPos, adjustment } = this.state;
+    const { adjustment } = this.state;
 
     const refitCoords = ({ x, y }) =>
       rawToUnitCoords({
@@ -58,16 +59,16 @@ class Construct extends Component {
         y: y - adjustment.y,
       });
 
-    const link = {
-      pos: refitCoords(currPos),
-      key: id,
+    const construct = {
+      pos: refitCoords(pos),
+      id,
       info,
       children: childConstructs,
       name,
       styles,
     };
 
-    await dispatch(updateConstruct(link));
+    await dispatch(updateConstruct(construct));
   };
 
   render() {

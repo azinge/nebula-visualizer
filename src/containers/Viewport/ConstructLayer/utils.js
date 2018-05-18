@@ -37,3 +37,14 @@ export const rawToUnitCoords = ({ x, y }) => {
     y: scaledCoords.y / -blockSize,
   };
 };
+
+export const getAbsolutePosForEvent = evt => {
+  const pos = { x: 0, y: 0 };
+  let current = evt.target;
+  while (Object.keys(current.attrs).length) {
+    pos.x += current.attrs.x;
+    pos.y += current.attrs.y;
+    current = current.parent;
+  }
+  return pos;
+};

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Group, Line, Rect } from 'react-konva';
 
 import { rawToUnitCoords } from '../utils';
-import { updateLink } from '../../../../redux/Links/actions';
+import { updateConstruct } from '../../../../redux/Constructs/actions';
 
 class Link extends Component {
   constructor(props) {
@@ -65,11 +65,11 @@ class Link extends Component {
     const link = {
       from: refitCoords(from),
       to: refitCoords(to),
-      key: id,
+      id,
       styles,
     };
 
-    await dispatch(updateLink(link));
+    await dispatch(updateConstruct(link));
   };
 
   render() {

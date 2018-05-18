@@ -30,7 +30,7 @@ export const locationToUnitCoords = loc => ({
   y: loc.coordinate.y.value,
 });
 
-export const parseConstruct = (construct, key) => ({
+export const parseConstruct = construct => ({
   pos: locationToUnitCoords(construct.location),
   children: Array.isArray(construct.body)
     ? construct.body.filter(c => c.location).map(parseConstruct)
@@ -38,12 +38,12 @@ export const parseConstruct = (construct, key) => ({
   styles: styles[construct.getClassName()],
   name: construct.getClassName(),
   info: parser(construct),
-  key,
+  id: construct.key,
 });
 
-export const parseLink = (construct, key) => ({
+export const parseLink = construct => ({
   from: locationToUnitCoords(construct.from),
   to: locationToUnitCoords(construct.to),
   styles: styles.linkNode,
-  key,
+  id: construct.key,
 });

@@ -9,7 +9,8 @@ import { unitToRawCoords } from './utils.js';
 
 class ConstructLayer extends Component {
   renderLinks(links) {
-    return links.map(link => {
+    const { constructMap } = this.props;
+    return links.map(id => constructMap[id]).map(link => {
       const fromPos = unitToRawCoords(link.from);
       const toPos = unitToRawCoords(link.to);
       return (
@@ -18,15 +19,16 @@ class ConstructLayer extends Component {
           to={toPos}
           styles={link.styles}
           offset={this.props.offset}
-          key={link.key}
-          id={link.key}
+          key={link.id}
+          id={link.id}
         />
       );
     });
   }
 
   renderConstructs(constructs, parentLoc = null) {
-    return constructs.map(con => {
+    const { constructMap } = this.props;
+    return constructs.map(id => constructMap[id]).map(con => {
       let pos = unitToRawCoords(con.pos);
       if (parentLoc) {
         const adjustment = { x: (100 - con.styles.width) / 2, y: (100 - con.styles.height) / 2 };
@@ -45,8 +47,8 @@ class ConstructLayer extends Component {
           info={con.info}
           offset={this.props.offset}
           childConstructs={con.children}
-          key={con.key}
-          id={con.key}
+          key={con.id}
+          id={con.id}
         >
           {this.renderConstructs(con.children, con.pos)}
         </Construct>
@@ -66,8 +68,9 @@ class ConstructLayer extends Component {
 }
 
 ConstructLayer.propTypes = {
-  constructs: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  links: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  constructMap: PropTypes.shape({}).isRequired,
+  constructs: PropTypes.arrayOf(PropTypes.number).isRequired,
+  links: PropTypes.arrayOf(PropTypes.number).isRequired,
   offset: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -75,6 +78,7 @@ ConstructLayer.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  constructMap: state.constructs.map,
   constructs: state.constructs.data,
   links: state.links.data,
 });
