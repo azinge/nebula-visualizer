@@ -1,5 +1,4 @@
-const helloWorld2D = `
-Origin default "hello" (0,0)
+const helloWorld2D = `Origin default "hello" (0,0)
   Result void <0,1>
 
 Function "print" (1,0)
@@ -10,8 +9,7 @@ Function "print" (1,0)
 Link (3,0) (0,1)
 `;
 
-const pow2D = `
-# Recursive program for Pow
+const pow2D = `# Recursive program for Pow
 
 Origin default "_pow" (0,0)
   Argument number "b" <0,2>

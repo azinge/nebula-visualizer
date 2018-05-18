@@ -11,16 +11,20 @@ import { receiveLinks, resetLinks } from '../Links/actions';
 
 /* Actions */
 export const RECEIVE_PROGRAM = 'NV.PROGRAM.RECEIVED_DATA';
-export const RESET_PROGRAM = 'NV.PROGRAM.RESET_PROGRAM';
+export const RESET_PROGRAM = 'NV.PROGRAM.RESET_DATA';
+export const RECEIVE_PARAMS = 'NV.PROGRAM.RECEIVED_PARAMS';
+export const RESET_PARAMS = 'NV.PROGRAM.RESET_PARAMS';
 
 /* Action Creators */
 export const receiveProgram = createAction(RECEIVE_PROGRAM);
 export const resetProgram = createAction(RESET_PROGRAM);
+export const receiveParams = createAction(RECEIVE_PARAMS);
+export const resetParams = createAction(RESET_PARAMS);
 
 /* Thunks */
-export const executeProgram = params => async (dispatch, getState) => {
-  const { program: { data: program } } = getState();
-  const response = runProgram(program, params);
+export const executeProgram = () => async (dispatch, getState) => {
+  const { program: { data: program, params } } = getState();
+  const response = runProgram(program, JSON.parse(params || '{}'));
   return response;
 };
 

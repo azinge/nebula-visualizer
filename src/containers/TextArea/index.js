@@ -5,10 +5,12 @@ import { View, TextInput, Button } from 'react-native';
 
 import {
   receiveProgram,
+  receiveParams,
   executeProgram,
   refreshProgram,
   refreshViewport,
 } from '../../redux/Program/actions';
+import examples from '../../lib/utils/nebula/examples';
 import styles from './styles.js';
 
 class TextArea extends Component {
@@ -23,6 +25,7 @@ class TextArea extends Component {
     this.refreshViewport = this.refreshViewport.bind(this);
     this.refreshProgram = this.refreshProgram.bind(this);
     this.executeProgram = this.executeProgram.bind(this);
+    this.updateProgram = this.updateProgram.bind(this);
   }
 
   async refreshViewport() {
@@ -51,11 +54,18 @@ class TextArea extends Component {
       const { dispatch } = this.props;
       const { programText, paramsText } = this.state;
       await dispatch(receiveProgram(programText));
-      const response = await dispatch(executeProgram(JSON.parse(paramsText || '{}')));
+      await dispatch(receiveParams(paramsText));
+      const response = await dispatch(executeProgram());
       this.setState({ outputText: `${response}` });
     } catch (err) {
       this.setState({ outputText: `${err}` });
     }
+  }
+
+  async updateProgram(program) {
+    const { dispatch } = this.props;
+    this.setState({ programText: program, paramsText: '{"b": 2, "p": 3, "n": 4}' });
+    await dispatch(receiveProgram(program));
   }
 
   render() {
@@ -88,12 +98,24 @@ class TextArea extends Component {
           multiline
         />
         <TextInput
-          style={{ height: 200, borderColor: 'gray', borderWidth: 1 }}
+          style={{ height: 165, borderColor: 'gray', borderWidth: 1 }}
           onChangeText={outputText => this.setState({ outputText })}
           value={this.state.outputText}
           multiline
           editable={false}
         />
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            height: 35,
+            width: '100%',
+          }}
+        >
+          <Button title="Hello World" onPress={() => this.updateProgram(examples.helloWorld2D)} />
+          <Button title="Recursive Fib" onPress={() => this.updateProgram('')} />
+          <Button title="Pow" onPress={() => this.updateProgram(examples.pow2D)} />
+        </View>
       </View>
     );
   }
